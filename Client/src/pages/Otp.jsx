@@ -11,31 +11,34 @@ function Otp() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const LoginUser=async(e)=>{
-    if(otp===''){
-      toast.error('Please fill all the fields');
-    }else if(otp.length<6){
-      toast.error('OTP Should be min six digit');}
-      else{
-        const data={email:location.state,phone:location.state,otp:otp};
-        console.log(data)
-        const response=await userverify(data);
-        if(response.status===200){
-          localStorage.setItem("token",response.data.userToken);
+  const LoginUser = async (e) => {
+    try {
+      if (otp === '') {
+        toast.error('Please fill all the fields');
+      } else if (otp.length < 6) {
+        toast.error('OTP should be a minimum of six digits');
+      } else {
+        const data = { email: location.state, phone: location.state, otp: otp };
+        console.log(data);
+        const response = await userverify(data);
+  
+        if (response.status === 200) {
+          localStorage.setItem("token", response.data.userToken);
           toast.success(response.data.message);
-          setTimeout(()=>{
+          setTimeout(() => {
             navigate("/dashboard");
-          },3000)
+          }, 3000);
+          setOtp('');
+        } else {
+          toast.error(response.data.error || 'Something went wrong. Please try again.');
           setOtp('');
         }
-        else{
-          toast.error(response.data.error);
-          setOtp('');
-        }
-        
       }
-  }
-
+    } catch (error) {
+      toast.error('Invalid OTP. Please try again.');
+    }
+  };
+  
   
 
   return (
