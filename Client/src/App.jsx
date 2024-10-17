@@ -6,6 +6,8 @@ import Otp from "./pages/Otp";
 import Header from "./components/Header";
 import Error from "./pages/Error";
 import DashBoard from "./pages/DashBoard";
+import Charts from "./pages/Charts/Charts";
+import DetailsPage from "./pages/Charts/DetailsPage";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Route path="/otp" element={<Otp />} />
           <Route path="*" element={<Error />} />
           <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/charts" element={<Charts />} />
+          <Route path="/charts/:label" element={<DetailsPage />} />
         </Routes>
       </Router>
     </>
