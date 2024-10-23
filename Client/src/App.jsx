@@ -8,6 +8,8 @@ import Error from "./pages/Error";
 import DashBoard from "./pages/DashBoard";
 import Charts from "./pages/Charts/Charts";
 import DetailsPage from "./pages/Charts/DetailsPage";
+import ActorDashBoard from "./pages/Actors/ActorDashBoard";
+import ActorLogin from "./pages/Actors/ActorLogin";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/charts" element={<Charts />} />
           <Route path="/charts/:label" element={<DetailsPage />} />
+          <Route path="/actorDash" element={<ActorDashBoard />} />
+          <Route path="/actorLogin" element={<ActorLogin />} />
         </Routes>
       </Router>
     </>

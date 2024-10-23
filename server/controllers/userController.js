@@ -1,5 +1,7 @@
 const users = require("../models/userSchema");
 const userOtp = require("../models/userOtp");
+const client = require("../models/clientSchema");
+const actor = require("../models/actorSchema");
 const nodemailer = require("nodemailer");
 const twilio = require("twilio");
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -141,3 +143,48 @@ exports.userverify = async (req, res) => {
         res.status(400).json({ error: "Failed to verify OTP",err});
     };
 }
+
+exports.actorverify = async (req, res) => {
+    const { email, password, role } = req.body;
+
+    if (!email || !password || !role) {
+        return res.status(400).json({ error: "Please fill all the fields" });
+    }
+
+    try {
+        const userExist = await actor.findOne({ email: email });
+
+        if (!userExist) {
+            return res.status(400).json({ error: "User does not exist" });
+        }
+
+        const preuser = userExist;
+        if (preuser.role === role) {
+            if (preuser.password === password) {
+                // token generation
+                const token = await preuser.generateAuthToken();
+                return res.status(200).json({ message: "User verified successfully", userToken: token ,user: preuser});
+            } else {
+                return res.status(400).json({ error: "Invalid Password" });
+            }
+        } else {
+            return res.status(400).json({ error: "Invalid Role" });
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(400).json({ error: "Failed to verify user", err });
+    }
+};
+    
+
+exports.getallusers = async (req, res) => {
+     try{
+        const userExist = await client.find({});
+        res.status(200).json({ message: "User registered successfully" ,userExist});
+        return userExist;
+     }catch (e) {
+        console.log(e);
+        res.status(400).json({ error: "Failed to register",e});
+     }
+}
+

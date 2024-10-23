@@ -11,3 +11,12 @@ export const sendOtpFunction =async (data)=>{
 export const userverify =async (data)=>{
     return await commanrequest("POST",`${BACKEND_URL}/user/verify`,data);
 }
+
+export const actorverify =async (data)=>{
+    return await commanrequest("POST",`${BACKEND_URL}/actor/verify`,data);
+}
+
+export const getallusers =async ()=>{
+    return await commanrequest("GET",`${BACKEND_URL}/user/getall`);
+}
+
